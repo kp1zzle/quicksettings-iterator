@@ -24,8 +24,8 @@
 		}
 	};
 
-	QuickSettings.useExtStyleSheet();
-	var panel = QuickSettings.create(20, 20, "test")
+	QuickSettingsIterator.useExtStyleSheet();
+	var panel = QuickSettingsIterator.create(20, 20, "test")
 		.setDraggable(true)
 		.setCollapsible(true)
 		.addDropDown("style", [

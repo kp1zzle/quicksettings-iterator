@@ -33,7 +33,7 @@ window.onload = function() {
 	}
 
 
-	var settings = QuickSettings.create(20, 20, "Settings");
+	var settings = QuickSettingsIterator.create(20, 20, "Settings");
 	settings.addRange("CircleCount", 3, 30, numCircles, 1, function(value) {
 		numCircles = value;
 		draw();
@@ -66,7 +66,7 @@ window.onload = function() {
 		context.clearRect(0, 0, width, height);
 	});
 
-	var settings2 = QuickSettings.create(width - 250, 20, "Other Stuff");
+	var settings2 = QuickSettingsIterator.create(width - 250, 20, "Other Stuff");
 
 	settings2.addText("Random Text", "hello world");
 	settings2.addHTML("info", "Turn it off and back on again");

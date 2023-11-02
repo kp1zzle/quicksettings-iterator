@@ -16,7 +16,7 @@ window.onload = function() {
 	};
 
 
-	var settings = QuickSettings.create();
+	var settings = QuickSettingsIterator.create();
 	settings.setGlobalChangeHandler(draw);
 	settings.bindRange("radius", 0, 100, 50, 1, circle);
 	settings.bindRange("startAngle", 0, Math.PI * 2, 0, 0.01, circle);

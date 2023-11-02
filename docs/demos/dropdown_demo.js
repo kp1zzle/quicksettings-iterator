@@ -1,5 +1,5 @@
 window.onload = function() {
-	var settings = QuickSettings.create(20, 20, "Settings")
+	var settings = QuickSettingsIterator.create(20, 20, "Settings")
 		.addDropDown("DropDown", [
 			{
 				label: "one",

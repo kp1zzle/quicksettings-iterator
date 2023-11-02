@@ -1,5 +1,5 @@
 window.onload = function() {
-	var settings = QuickSettings.create(20, 20, "Settings")
+	var settings = QuickSettingsIterator.create(20, 20, "Settings")
 		.addRange("range", 0, 100, 50, 1)
 		.addText("text", "hello world")
 		.addColor("color", "#ff0000")

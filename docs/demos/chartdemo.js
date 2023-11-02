@@ -33,7 +33,7 @@ var donutChart = Charts.pieChart
 	.setData(pieData)
 	.setDonut(50);
 
-var panel = QuickSettings.create(10, 10)
+var panel = QuickSettingsIterator.create(10, 10)
 	.addElement("line chart", lineChart.getElement())
 	.addElement("bar chart", barChart.getElement())
 	.addElement("pie chart", pieChart.getElement())

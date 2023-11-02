@@ -87,7 +87,7 @@
 
     /**
      *
-     * @alias module:QuickSettings
+     * @alias module:QuickSettingsIterator
      * @lends module:QuickSettings.prototype
      */
     var QuickSettings = {
@@ -102,7 +102,7 @@
         _hidden: false,
         _collapsed: false,
         _controls: null,
-        _keyCodeArray: new Array(),
+        _keyCode: -1,
         _draggable: true,
         _collapsible: true,
         _globalChangeHandler: null,
@@ -112,7 +112,7 @@
         ////////////////////////////////////////////////////////////////////////////////
 
         /**
-         * Static method. Causes QuickSettings to ignore its default styles and instead use whatever QuickSettings stylesheet is on the page. This must be called before creating any panel in order to have any effect.
+         * Static method. Causes QuickSettingsIterator to ignore its default styles and instead use whatever QuickSettingsIterator stylesheet is on the page. This must be called before creating any panel in order to have any effect.
          * @static
          */
         useExtStyleSheet: function () {
@@ -120,12 +120,12 @@
         },
 
         /**
-         * Static method. Creates a new QuickSettings Panel
-         * @param x            {Number}        x position of panel (default 0)
-         * @param y            {Number}        y position of panel (default 0)
-         * @param title        {String}        title of panel (default "QuickSettings")
-         * @param [parent]    {HTMLElement}    parent element (default document.body)
-         * @returns {module:QuickSettings}    New QuickSettings Panel
+         * Static method. Creates a new QuickSettingsIterator Panel
+         * @param x            {Number}         x position of panel (default 0)
+         * @param y            {Number}         y position of panel (default 0)
+         * @param [title]      {String}         title of panel (default "QuickSettingsIterator")
+         * @param [parent]     {HTMLElement}    parent element (default document.body)
+         * @returns {module:QuickSettings}      New QuickSettingsIterator Panel
          * @static
          */
         create: function (x, y, title, parent) {
@@ -494,26 +494,23 @@
             return this;
         },
 
-		/**
-		 * Sets a key that, when pressed, will show and hide the panel. More than one key may be set (allows use of keys on stylus as well as keyboard).
-		 * @param key  (accepts a string, e.g. 'a' or integer representing javascript character code)
-		 * @returns {module:QuickSettings}
-		 */
-		 				
-        setKey: function(key) {
-            if(Number.isInteger(key)) { 
-                this._keyCodeArray.push(key);
-            }else{
-                this._keyCodeArray.push(key.toUpperCase().charCodeAt(0));
-            }
-            document.addEventListener("keyup", this._onKeyUp);			
+        /**
+         * Sets a key that, when pressed, will show and hide the panel.
+         * @param char
+         * @returns {module:QuickSettings}
+         */
+        setKey: function (char) {
+            this._keyCode = char.toUpperCase().charCodeAt(0);
+            document.addEventListener("keyup", this._onKeyUp);
             return this;
-        },		
-		
-        _onKeyUp: function(event) {	
-            if(this._keyCodeArray.includes(event.keyCode)) {
-                this.toggleVisibility();
-            }			
+        },
+
+        _onKeyUp: function (event) {
+            if (event.keyCode === this._keyCode) {
+                if (["INPUT", "SELECT", "TEXTAREA"].indexOf(event.target.tagName) < 0) {
+                    this.toggleVisibility();
+                }
+            }
         },
 
         _doubleClickTitle: function () {
@@ -595,7 +592,7 @@
          * Changes a specific style on the given component.
          * @param title {String} The title of the control.
          * @param style {String} The name of the style.
-         * @param value {String} The new value of the style.
+         * @param value {Various} The new value of the style.
          * @returns {module:QuickSettings}
          */
         overrideStyle: function (title, style, value) {
@@ -1218,6 +1215,7 @@
                 label: label,
                 title: title,
                 callback: callback,
+                iterate: true,
                 getValue: function () {
                     return parseFloat(this.control.value);
                 },
@@ -1279,7 +1277,7 @@
 
         /**
          * Sets the parameters of a range control.
-         * @param title {Number} The title of the control to set the parameters on.
+         * @param title {String} The title of the control to set the parameters on.
          * @param min {Number} The minimum value of the control.
          * @param max {Number} The maximum value of the control.
          * @param step {Number} Size of value increments.
@@ -1291,7 +1289,7 @@
 
         /**
          * Sets the parameters of a number control.
-         * @param title {Number} The title of the control to set the parameters on.
+         * @param title {String} The title of the control to set the parameters on.
          * @param min {Number} The minimum value of the control.
          * @param max {Number} The maximum value of the control.
          * @param step {Number} Size of value increments.
@@ -1619,6 +1617,28 @@
             });
         },
         // endregion
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // region ITERATING
+        ////////////////////////////////////////////////////////////////////////////////
+
+        /**
+         * Advances the parameter values by one iteration step.
+         */
+        iterationStep: function () {
+            console.log(Object.keys(this._controls))
+            var entries = Object.entries(this._controls)
+            for (var i = 0; i < entries.length; i++) {
+                var key = entries[i][0]
+                var control = entries[i][1]
+                if (typeof control === 'object' && control !== null && 'iterate' in control && control.iterate) {
+                    this.setValue(key, control.getValue() + parseInt(control.control.step))
+                }
+            }
+            Object.entries(this._controls).forEach(function (key) {
+
+            })
+        }
 
 
     }

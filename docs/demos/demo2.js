@@ -1,12 +1,12 @@
 window.onload = function() {
 
-	var master = QuickSettings.create(0, 0, "Master"),
-		sliders = QuickSettings.create(210, 0, "Sliders"),
-		bools = QuickSettings.create(420, 0, "Booleans"),
-		colors = QuickSettings.create(630, 0, "Colors"),
-		buttons = QuickSettings.create(0, 240, "Buttons"),
-		texts = QuickSettings.create(210, 240, "Text"),
-		infos = QuickSettings.create(420, 240, "Info");
+	var master = QuickSettingsIterator.create(0, 0, "Master"),
+		sliders = QuickSettingsIterator.create(210, 0, "Sliders"),
+		bools = QuickSettingsIterator.create(420, 0, "Booleans"),
+		colors = QuickSettingsIterator.create(630, 0, "Colors"),
+		buttons = QuickSettingsIterator.create(0, 240, "Buttons"),
+		texts = QuickSettingsIterator.create(210, 240, "Text"),
+		infos = QuickSettingsIterator.create(420, 240, "Info");
 
 	master.addBoolean("Sliders", true, function(value) {
 		if(value) {

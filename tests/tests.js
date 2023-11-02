@@ -10,7 +10,7 @@ QUnit.config.hidepassed = true;
 
 QUnit.module("boolean", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addBoolean("boolean", false, listener);
     },
 
@@ -56,7 +56,7 @@ QUnit.test("listener", function(assert) {
 //////////////////////////////////
 QUnit.module("button", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addButton("button", function() { flag = true;});
     },
 
@@ -86,7 +86,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("color", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addColor("color", "#000000", listener);
     },
 
@@ -130,7 +130,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("date", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addDate("date", "2016-01-01", listener);
     },
 
@@ -190,7 +190,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("dropdown", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addDropDown("dropdown", ["one", "two", "three"], listener);
     },
 
@@ -255,7 +255,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("html", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addHTML("html", "this is the html");
     },
 
@@ -282,7 +282,7 @@ QUnit.test("set and get", function(assert) {
 
 QUnit.module("image", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addImage("image", "http://bit-101.com/image.jpg");
     },
 
@@ -309,7 +309,7 @@ QUnit.test("set and get", function(assert) {
 
 QUnit.module("number", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addRange("number", 0, 100, 0, 1, listener);
     },
 
@@ -378,7 +378,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("password", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addPassword("password", "foo", listener);
     },
 
@@ -418,7 +418,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("progress", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addProgressBar("progress", 100, 0);
     },
 
@@ -457,7 +457,7 @@ QUnit.test("set and get", function(assert) {
 
 QUnit.module("range", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addRange("range", 0, 100, 0, 1, listener);
     },
 
@@ -525,7 +525,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("text", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addText("text", "foo", listener);
     },
 
@@ -566,7 +566,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("textArea", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addTextArea("textArea", "foo", listener);
     },
 
@@ -607,7 +607,7 @@ QUnit.test("listener", function(assert) {
 
 QUnit.module("time", {
     before:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addTime("time", "12:34:56", listener);
     },
 
@@ -661,14 +661,14 @@ QUnit.test("listener", function(assert) {
 QUnit.module("local storage", {});
 
 QUnit.test("save and read", function(assert) {
-    var panel = QuickSettings.create()
+    var panel = QuickSettingsIterator.create()
         .addRange("range", 0, 100, 0, 1)
         .saveInLocalStorage("ls_test");
     panel.setValue("range", 39);
     panel.destroy();
     panel = null
 
-    panel = QuickSettings.create()
+    panel = QuickSettingsIterator.create()
         .addRange("range", 0, 100, 0, 1)
         .saveInLocalStorage("ls_test");
 
@@ -677,7 +677,7 @@ QUnit.test("save and read", function(assert) {
     panel.clearLocalStorage("ls_test");
     panel.destroy();
 
-    panel = QuickSettings.create()
+    panel = QuickSettingsIterator.create()
         .addRange("range", 0, 100, 0, 1)
         .saveInLocalStorage("ls_test");
 
@@ -691,7 +691,7 @@ QUnit.test("save and read", function(assert) {
 //////////////////////////////////
 QUnit.module("json", {
     beforeEach:  function() {
-        panel = QuickSettings.create()
+        panel = QuickSettingsIterator.create()
             .addRange("range", 0, 100, 0, 1);
     },
 

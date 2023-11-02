@@ -1,5 +1,5 @@
 window.onload = function() {
-	var settings = QuickSettings.create(300, 0, "HTML demo");
+	var settings = QuickSettingsIterator.create(300, 0, "HTML demo");
 
 	settings.addHTML("info", "Since all the previous demos were canvas-based, I just wanted to show that there's no dependency on canvas here.");
 	settings.addHTML("info2", "Most of this is done through direct binding on the HTML objects.");

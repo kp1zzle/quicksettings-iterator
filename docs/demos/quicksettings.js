@@ -81,7 +81,7 @@
 
 	/**
 	 *
-	 * @alias module:QuickSettings
+	 * @alias module:QuickSettingsIterator
 	 * @lends module:QuickSettings.prototype
 	 */
 	var QuickSettings = {
@@ -106,7 +106,7 @@
 		////////////////////////////////////////////////////////////////////////////////
         
 		/**
-		 * Static method. Causes QuickSettings to ignore its default styles and instead use whatever QuickSettings stylesheet is on the page. This must be called before creating any panel in order to have any effect.
+		 * Static method. Causes QuickSettingsIterator to ignore its default styles and instead use whatever QuickSettingsIterator stylesheet is on the page. This must be called before creating any panel in order to have any effect.
 		 * @static
 		 */
 		useExtStyleSheet: function() {
@@ -114,12 +114,12 @@
 		},
 
 		/**
-		 * Static method. Creates a new QuickSettings Panel
+		 * Static method. Creates a new QuickSettingsIterator Panel
 		 * @param x            {Number}        x position of panel (default 0)
 		 * @param y            {Number}        y position of panel (default 0)
-		 * @param title        {String}        title of panel (default "QuickSettings")
+		 * @param title        {String}        title of panel (default "QuickSettingsIterator")
 		 * @param parent    {HTMLElement}    parent element (default document.body)
-		 * @returns {module:QuickSettings}    New QuickSettings Panel
+		 * @returns {module:QuickSettings}    New QuickSettingsIterator Panel
 		 * @static
 		 */
 		create: function(x, y, title, parent) {

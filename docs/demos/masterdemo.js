@@ -1,6 +1,6 @@
 window.onload = function() {
 
-	var panel1 = QuickSettings.create(10, 10, "Panel 1")
+	var panel1 = QuickSettingsIterator.create(10, 10, "Panel 1")
 		.addRange("Range", 0, 100, 30, 1, function(value) { output("Range", value)})
 		.addNumber("Number", 0, 100, 50, 1, function(value) { output("Number", value)})
 		.addColor("Color", "#ff0000", function(value) { output("Color", value)})
@@ -19,19 +19,19 @@ window.onload = function() {
 	context.arc(50, 50, 50, 0, Math.PI * 2);
 	context.fill();
 
-	var panel2 = QuickSettings.create(250, 10, "Panel 2")
+	var panel2 = QuickSettingsIterator.create(250, 10, "Panel 2")
 		.addDropDown("DropDown", ["one", "two", "three"], function(value) { output("DropDown", value.value)})
 		.addImage("Image", "boyhowdy.jpg")
 		.addProgressBar("ProgressBar", 100, 50)
 		.addElement("Element (canvas)", canvas);
 
-	var panel3 = QuickSettings.create(490, 10, "Panel3")
+	var panel3 = QuickSettingsIterator.create(490, 10, "Panel3")
 		.addHTML("HTML", "<b>bold</b> <u>underline</u> <i>italic</i><ol><li>one</li><li>two</li><li>three</li>")
 		.addPassword("Password", "12345678", function(value) { output("Password", value)})
 		.addDate("Date", "2016-07-11", function(value) { output("Date", value)})
 		.addTime("Time", "06:03:25", function(value) { output("Time", value)});
 
-	var panel4 = QuickSettings.create(730, 10, "Output Panel")
+	var panel4 = QuickSettingsIterator.create(730, 10, "Output Panel")
 		.addTextArea("Output");
 
 

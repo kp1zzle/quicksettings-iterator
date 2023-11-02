@@ -1,5 +1,5 @@
 {
-  "name": "quicksettings",
+  "name": "quicksettings-iterator",
   "version": "3.0.1",
   "description": "QuickSettings is a JavaScript library for making a quick settings panel to control code parameters.",
   "main": "quicksettings.min.js",

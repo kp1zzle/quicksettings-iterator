@@ -1,6 +1,6 @@
 (function() {
 
-    var panel = QuickSettings.create(100, 100)
+    var panel = QuickSettingsIterator.create(100, 100)
         .addFileChooser("file chooser", "pick an image...", "image/*", onFileChosen)
         .addTextArea("file info", "")
         .setTextAreaRows("file info", 10)
