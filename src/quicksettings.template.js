@@ -106,6 +106,7 @@
         _draggable: true,
         _collapsible: true,
         _globalChangeHandler: null,
+        _iterating: false,
 
         ////////////////////////////////////////////////////////////////////////////////
         // region GENERAL INIT FUNCTIONS
@@ -154,6 +155,7 @@
             this._createPanel(x, y, parent);
             this._createTitleBar(title || "QuickSettings");
             this._createContent();
+            this._createIterationControls();
 
         },
 
@@ -276,6 +278,13 @@
             }, true);
             this._content.appendChild(container);
             return container;
+        },
+
+        _createIterationControls: function () {
+            self = this;
+            this.addButton("play/pause", function () {
+                self._iterating = !self._iterating;
+            })
         },
 
         // endregion
@@ -1626,6 +1635,10 @@
          * Advances the parameter values by one iteration step.
          */
         iterationStep: function () {
+            if (!this._iterating) {
+                return
+            }
+
             console.log(Object.keys(this._controls))
             var entries = Object.entries(this._controls)
             for (var i = 0; i < entries.length; i++) {
