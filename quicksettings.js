@@ -1225,6 +1225,7 @@
                 title: title,
                 callback: callback,
                 iterate: true,
+                iterationMultiplier: 1,
                 getValue: function () {
                     return parseFloat(this.control.value);
                 },
@@ -1639,18 +1640,17 @@
                 return
             }
 
-            console.log(Object.keys(this._controls))
             var entries = Object.entries(this._controls)
             for (var i = 0; i < entries.length; i++) {
-                var key = entries[i][0]
-                var control = entries[i][1]
+                var key = entries[i][0];
+                var control = entries[i][1];
                 if (typeof control === 'object' && control !== null && 'iterate' in control && control.iterate) {
-                    this.setValue(key, control.getValue() + parseInt(control.control.step))
+                    this.setValue(key, control.getValue() + (control.iterationMultiplier * parseInt(control.control.step)))
+                    if (this.getValue(key) >= parseInt(control.control.max) || this.getValue(key) <= parseInt(control.control.min)) {
+                        control.iterationMultiplier *= -1;
+                    }
                 }
             }
-            Object.entries(this._controls).forEach(function (key) {
-
-            })
         }
 
 
