@@ -1208,12 +1208,16 @@
 
             var label = createLabel("", container);
 
+            var id = getNextID()
             var className = type === "range" ? "qs_range" : "qs_text_input qs_number";
-            var input = createInput(type, getNextID(), className, container);
+            var input = createInput(type, id, className, container);
             input.min = min || 0;
             input.max = max || 100;
             input.step = step || 1;
             input.value = value || 0;
+
+            var iterationControl = createInput("checkbox", id, "qs_checkbox", container);
+            iterationControl.checked = true;
 
             label.innerHTML = "<b>" + title + ":</b> " + input.value;
 
@@ -1224,7 +1228,7 @@
                 label: label,
                 title: title,
                 callback: callback,
-                iterate: true,
+                iterationControl: iterationControl,
                 iterationMultiplier: 1,
                 getValue: function () {
                     return parseFloat(this.control.value);
@@ -1644,7 +1648,7 @@
             for (var i = 0; i < entries.length; i++) {
                 var key = entries[i][0];
                 var control = entries[i][1];
-                if (typeof control === 'object' && control !== null && 'iterate' in control && control.iterate) {
+                if (typeof control === 'object' && control !== null && 'iterationControl' in control && control.iterationControl.checked) {
                     this.setValue(key, control.getValue() + (control.iterationMultiplier * parseInt(control.control.step)))
                     if (this.getValue(key) >= parseInt(control.control.max) || this.getValue(key) <= parseInt(control.control.min)) {
                         control.iterationMultiplier *= -1;
