@@ -281,7 +281,8 @@
         },
 
         _createIterationControls: function () {
-            self = this;
+            var self = this;
+
             this.addButton("play/pause", function () {
                 self._iterating = !self._iterating;
             })
