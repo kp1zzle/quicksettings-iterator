@@ -107,6 +107,10 @@
         _collapsible: true,
         _globalChangeHandler: null,
         _iterating: false,
+        _iterationState: {
+            mode: "linear",
+            iterableElements: null,
+        },
 
         ////////////////////////////////////////////////////////////////////////////////
         // region GENERAL INIT FUNCTIONS
@@ -282,6 +286,10 @@
 
         _createIterationControls: function () {
             var self = this;
+
+            this.addDropDown("iteration mode", ["linear", "hierarchical", "sequential", "random"], function (obj) {
+                self.PrepareIterationState(obj.value);
+            })
 
             this.addButton("play/pause", function () {
                 self._iterating = !self._iterating;
@@ -1255,6 +1263,10 @@
                 }
                 self._callGCH(title);
             });
+            iterationControl.addEventListener("change", function () {
+                self.PrepareIterationState(self.getValue("iteration mode").value)
+                self._callGCH(title);
+            });
             return this;
         },
 
@@ -1638,6 +1650,37 @@
         ////////////////////////////////////////////////////////////////////////////////
 
         /**
+         * Sets up the iteration state when the iteration mode or selected params change.
+         */
+        PrepareIterationState: function (mode) {
+            self = this
+            function createListOfIterableElements() {
+                var out = [];
+                var entries = Object.entries(self._controls)
+                for (var i = 0; i < entries.length; i++) {
+                    var key = entries[i][0];
+                    var control = entries[i][1];
+                    if (typeof control === 'object' && control !== null && 'iterationControl' in control && control.iterationControl.checked) {
+                        out.push(key)
+                    }
+                }
+                return out;
+            }
+
+            this._iterationState.mode = mode;
+            this._iterationState.iterableElements = createListOfIterableElements()
+
+            if (mode === "sequential" && this._iterationState.iterableElements.length > 0) {
+                this._iterationState.sequentialCurrIndex = 0;
+                this._iterationState.sequentialCurrStartingValue = null;
+            }
+            console.log(this._iterationState)
+
+
+        },
+
+
+        /**
          * Advances the parameter values by one iteration step.
          */
         iterationStep: function () {
@@ -1645,21 +1688,92 @@
                 return
             }
 
-            var entries = Object.entries(this._controls)
-            for (var i = 0; i < entries.length; i++) {
-                var key = entries[i][0];
-                var control = entries[i][1];
-                if (typeof control === 'object' && control !== null && 'iterationControl' in control && control.iterationControl.checked) {
-                    this.setValue(key, control.getValue() + (control.iterationMultiplier * parseInt(control.control.step)))
-                    if (this.getValue(key) >= parseInt(control.control.max) || this.getValue(key) <= parseInt(control.control.min)) {
-                        control.iterationMultiplier *= -1;
-                    }
+            if (this._iterationState.iterableElements === null) {
+               this.PrepareIterationState(this.getValue("iteration mode").value)
+            }
+
+            switch (this._iterationState.mode) {
+                case "linear":
+                    this._linearIterationStep();
+                    break;
+                case "hierarchical":
+                    this._hierarchicalIterationStep();
+                    break;
+                case "sequential":
+                    this._sequentialIterationStep();
+                    break;
+                case "random":
+                    this._randomIterationStep();
+                    break;
+
+            }
+
+        },
+
+        _linearIterationStep: function () {
+            for (var i = 0; i < this._iterationState.iterableElements.length; i++) {
+                var key = this._iterationState.iterableElements[i];
+                var control = this._controls[key];
+                this.setValue(key, control.getValue() + (control.iterationMultiplier * parseInt(control.control.step)))
+                if (this.getValue(key) >= parseInt(control.control.max) || this.getValue(key) <= parseInt(control.control.min)) {
+                    control.iterationMultiplier *= -1;
                 }
             }
-        }
+        },
+
+        _hierarchicalIterationStep: function () {
+            for (var i = this._iterationState.iterableElements.length-1; i >= 0; i--) {
+                var key = this._iterationState.iterableElements[i];
+                var control = this._controls[key];
+
+                this.setValue(key, control.getValue() +  parseInt(control.control.step));
+
+                if (this.getValue(key) >= parseInt(control.control.max)) {
+                    this.setValue(key, parseInt(control.control.min))
+                } else {
+                    break;
+                }
+            }
+        },
+
+        _sequentialIterationStep: function () {
+            console.log(this._iterationState.sequentialCurrIndex)
+            var key = this._iterationState.iterableElements[this._iterationState.sequentialCurrIndex];
+            console.log(key)
+            var control = this._controls[key];
+
+            if (this._iterationState.sequentialCurrStartingValue === null) {
+                this._iterationState.sequentialCurrStartingValue = this.getValue(key)
+                this._iterationState.sequentialCurrTimesSeen = 0;
+            }
+
+            this.setValue(key, control.getValue() + (control.iterationMultiplier * parseInt(control.control.step)));
+            if (this.getValue(key) >= parseInt(control.control.max) || this.getValue(key) <= parseInt(control.control.min)) {
+                control.iterationMultiplier *= -1;
+            }
+
+            if (this.getValue(key) === this._iterationState.sequentialCurrStartingValue) {
+                this._iterationState.sequentialCurrTimesSeen++;
+                if (this._iterationState.sequentialCurrTimesSeen === 2) {
+                    this._iterationState.sequentialCurrIndex = (this._iterationState.sequentialCurrIndex + 1) % this._iterationState.iterableElements.length
+                    this._iterationState.sequentialCurrStartingValue = null
+                }
+            }
+
+        },
+
+        _randomIterationStep: function () {
+            for (var i = 0; i < this._iterationState.iterableElements.length; i++) {
+                var key = this._iterationState.iterableElements[i];
+                var control = this._controls[key];
+
+                this.setValue(key, parseInt(control.control.min) + ((parseInt(control.control.max) - parseInt(control.control.min)) * Math.random()))
+            }
+        },
 
 
     }
+
     ////////////////////////////////////////////////////////////////////////////////
     // EXPORT
     ////////////////////////////////////////////////////////////////////////////////
