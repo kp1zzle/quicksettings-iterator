@@ -1,19 +1,19 @@
 {
   "name": "quicksettings-iterator",
   "version": "3.0.1",
-  "description": "QuickSettings is a JavaScript library for making a quick settings panel to control code parameters.",
+  "description": "QuickSettings-iterator is a fork of quicksettings to iterator over a parameter space.",
   "main": "quicksettings.min.js",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bit101/quicksettings.git"
+    "url": "git+https://github.com/kp1zzle/quicksettings-iterator"
   },
-  "author": "keith peters",
+  "author": "keith peters + kieran parikh",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bit101/quicksettings/issues"
+    "url": "https://github.com/kp1zzle/quicksettings-iterator/issues"
   },
-  "homepage": "https://github.com/bit101/quicksettings#readme",
+  "homepage": "https://github.com/kp1zzle/quicksettings-iterator#readme",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
